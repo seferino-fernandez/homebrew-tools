@@ -1,27 +1,27 @@
 class NoaaWeather < Formula
   desc "CLI for the NOAA Weather API"
   homepage "https://github.com/seferino-fernandez/noaa_weather"
-  version "1.1.0"
+  version "1.2.0"
   license "MIT"
 
   on_macos do
     if Hardware::CPU.intel?
       # macOS Intel (x86_64) binary
-      url "https://github.com/seferino-fernandez/noaa_weather/releases/download/v1.1.0/noaa-weather-x86_64-apple-darwin.tar.gz"
-      sha256 "3188fa5878fb7b82cfc18e6577223bd973521c179cd6d6504487f29e4f022ffe"
+      url "https://github.com/seferino-fernandez/noaa_weather/releases/download/v1.2.0/noaa-weather-x86_64-apple-darwin.tar.gz"
+      sha256 "584c77b6816f3f4d0b5ce9b8c4ba705720eb0fb669736ab005ccd63c7a1095e4"
     end
     if Hardware::CPU.arm?
       # macOS Apple Silicon (aarch64) binary
-      url "https://github.com/seferino-fernandez/noaa_weather/releases/download/v1.1.0/noaa-weather-aarch64-apple-darwin.tar.gz"
-      sha256 "e6f3355c33c38b83a68a822862dbdd131829627c31e861ab4f90fc49e0d29bd6"
+      url "https://github.com/seferino-fernandez/noaa_weather/releases/download/v1.2.0/noaa-weather-aarch64-apple-darwin.tar.gz"
+      sha256 "41f9d11d82034a2f6b8b8c69568cf48e6db33fe42f751edaef18e4d57e32a474"
     end
   end
 
   on_linux do
     if Hardware::CPU.intel?
       # Linux x86_64 binary
-      url "https://github.com/seferino-fernandez/noaa_weather/releases/download/v1.1.0/noaa-weather-x86_64-unknown-linux-gnu.tar.gz"
-      sha256 "b56ff3b615e8cab7c9bf59c6a8e94272c794770607dfc9e30900108f47e45171"
+      url "https://github.com/seferino-fernandez/noaa_weather/releases/download/v1.2.0/noaa-weather-x86_64-unknown-linux-gnu.tar.gz"
+      sha256 "9ad9d20b14c637899ed90eda1a1f2c0c9b3a30efe29b91993eec96f2ec26a262"
     end
   end
 

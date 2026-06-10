@@ -23,6 +23,11 @@ class NoaaWeather < Formula
       url "https://github.com/seferino-fernandez/noaa_weather/releases/download/v1.2.0/noaa-weather-x86_64-unknown-linux-gnu.tar.gz"
       sha256 "9ad9d20b14c637899ed90eda1a1f2c0c9b3a30efe29b91993eec96f2ec26a262"
     end
+    if Hardware::CPU.arm?
+      # Linux ARM binary
+      url "https://github.com/seferino-fernandez/noaa_weather/releases/download/v1.2.0/noaa-weather-aarch64-unknown-linux-gnu.tar.gz"
+      sha256 "58b91b7539bafda9da68366db10615a420f2be5533d4a9e104659fb8847d39c2"
+    end
   end
 
   def install

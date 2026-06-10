@@ -27,7 +27,8 @@ The following tools are currently available for installation through this tap:
 
 | Formula        | Description                                        | Source Repository                                                                     |
 | :------------- | :------------------------------------------------- | :------------------------------------------------------------------------------------ |
-| `noaa-weather` | A command-line interface for the NOAA Weather API. | [seferino-fernandez/noaa_weather](https://github.com/seferino-fernandez/noaa_weather) | 
+| `noaa-weather` | A command-line interface for the NOAA Weather API. | [seferino-fernandez/noaa_weather](https://github.com/seferino-fernandez/noaa_weather) |
+| `rhood`        | Terminal CLI for the Robinhood trading API.        | [seferino-fernandez/rhood-rs](https://github.com/seferino-fernandez/rhood-rs)         |
 
 ## License
 

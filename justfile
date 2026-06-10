@@ -4,112 +4,88 @@
 default:
     @just --list
 
-# Update a formula to the latest release
+# Show the latest release version and per-arch checksums for a formula
 update-formula formula repo:
     #!/usr/bin/env bash
     set -euo pipefail
-    
+
     echo "🔍 Fetching latest release for {{repo}}..."
     LATEST_TAG=$(gh release view --repo {{repo}} --json tagName --jq '.tagName')
     echo "📦 Latest version: $LATEST_TAG"
-    
-    # Create temp directory for downloads
+
     TEMP_DIR=$(mktemp -d)
-    cd "$TEMP_DIR"
-    
+
+    # Exact per-target archive names. The formula name is the asset prefix, so an
+    # exact filename avoids matching a sibling tool that shares this prefix
+    # (e.g. "rhood" must not pick up "rhood-mcp" archives).
+    INTEL_MAC="{{formula}}-x86_64-apple-darwin.tar.gz"
+    ARM_MAC="{{formula}}-aarch64-apple-darwin.tar.gz"
+    INTEL_LINUX="{{formula}}-x86_64-unknown-linux-gnu.tar.gz"
+    ARM_LINUX="{{formula}}-aarch64-unknown-linux-gnu.tar.gz"
+
     echo "⬇️  Downloading release assets..."
-    gh release download "$LATEST_TAG" --repo {{repo}} --pattern '*.tar.gz'
+    for f in "$INTEL_MAC" "$ARM_MAC" "$INTEL_LINUX" "$ARM_LINUX"; do
+        gh release download "$LATEST_TAG" --repo {{repo}} --pattern "$f" --dir "$TEMP_DIR" 2>/dev/null || true
+    done
 
-    # Calculate checksums
-    echo "🔐 Calculating checksums..."
-    INTEL_FILE=$(ls *x86_64-apple-darwin*.tar.gz 2>/dev/null || echo "")
-    ARM_FILE=$(ls *aarch64-apple-darwin*.tar.gz 2>/dev/null || echo "")
-    LINUX_FILE=$(ls *x86_64-unknown-linux-gnu*.tar.gz 2>/dev/null || echo "")
+    sha() { if [[ -f "$TEMP_DIR/$1" ]]; then shasum -a 256 "$TEMP_DIR/$1" | cut -d' ' -f1; fi; }
 
-    if [[ -n "$INTEL_FILE" ]]; then
-        INTEL_SHA=$(shasum -a 256 "$INTEL_FILE" | cut -d' ' -f1)
-        echo "macOS Intel SHA256: $INTEL_SHA"
-    fi
+    echo "🔐 Checksums:"
+    [[ -f "$TEMP_DIR/$INTEL_MAC"   ]] && echo "  macOS Intel : $(sha "$INTEL_MAC")"
+    [[ -f "$TEMP_DIR/$ARM_MAC"     ]] && echo "  macOS ARM   : $(sha "$ARM_MAC")"
+    [[ -f "$TEMP_DIR/$INTEL_LINUX" ]] && echo "  Linux Intel : $(sha "$INTEL_LINUX")"
+    [[ -f "$TEMP_DIR/$ARM_LINUX"   ]] && echo "  Linux ARM   : $(sha "$ARM_LINUX")"
 
-    if [[ -n "$ARM_FILE" ]]; then
-        ARM_SHA=$(shasum -a 256 "$ARM_FILE" | cut -d' ' -f1)
-        echo "macOS ARM SHA256: $ARM_SHA"
-    fi
-
-    if [[ -n "$LINUX_FILE" ]]; then
-        LINUX_SHA=$(shasum -a 256 "$LINUX_FILE" | cut -d' ' -f1)
-        echo "Linux x86_64 SHA256: $LINUX_SHA"
-    fi
-
-    # Clean up temp directory
-    cd - > /dev/null
     rm -rf "$TEMP_DIR"
-
-    echo "✅ Ready to update Formula/{{formula}}.rb with:"
-    echo "   Version: $LATEST_TAG"
-    [[ -n "$INTEL_FILE" ]] && echo "   macOS Intel SHA256: $INTEL_SHA"
-    [[ -n "$ARM_FILE" ]] && echo "   macOS ARM SHA256: $ARM_SHA"
-    [[ -n "$LINUX_FILE" ]] && echo "   Linux x86_64 SHA256: $LINUX_SHA"
     echo ""
     echo "Run 'just apply-update {{formula}} {{repo}} $LATEST_TAG' to apply changes"
 
-# Apply the update to a formula file
+# Apply a version + checksum update to a formula file
 apply-update formula repo version:
     #!/usr/bin/env bash
     set -euo pipefail
-    
+
     echo "🔄 Updating Formula/{{formula}}.rb to version {{version}}..."
-    
-    # Create temp directory for downloads to get checksums
     TEMP_DIR=$(mktemp -d)
-    cd "$TEMP_DIR"
-    
-    gh release download "{{version}}" --repo {{repo}} --pattern '*.tar.gz'
 
-    INTEL_FILE=$(ls *x86_64-apple-darwin*.tar.gz 2>/dev/null || echo "")
-    ARM_FILE=$(ls *aarch64-apple-darwin*.tar.gz 2>/dev/null || echo "")
-    LINUX_FILE=$(ls *x86_64-unknown-linux-gnu*.tar.gz 2>/dev/null || echo "")
+    INTEL_MAC="{{formula}}-x86_64-apple-darwin.tar.gz"
+    ARM_MAC="{{formula}}-aarch64-apple-darwin.tar.gz"
+    INTEL_LINUX="{{formula}}-x86_64-unknown-linux-gnu.tar.gz"
+    ARM_LINUX="{{formula}}-aarch64-unknown-linux-gnu.tar.gz"
 
-    if [[ -n "$INTEL_FILE" ]]; then
-        INTEL_SHA=$(shasum -a 256 "$INTEL_FILE" | cut -d' ' -f1)
-    fi
+    for f in "$INTEL_MAC" "$ARM_MAC" "$INTEL_LINUX" "$ARM_LINUX"; do
+        gh release download "{{version}}" --repo {{repo}} --pattern "$f" --dir "$TEMP_DIR" 2>/dev/null || true
+    done
 
-    if [[ -n "$ARM_FILE" ]]; then
-        ARM_SHA=$(shasum -a 256 "$ARM_FILE" | cut -d' ' -f1)
-    fi
+    sha() { if [[ -f "$TEMP_DIR/$1" ]]; then shasum -a 256 "$TEMP_DIR/$1" | cut -d' ' -f1; fi; }
+    INTEL_MAC_SHA=$(sha "$INTEL_MAC")
+    ARM_MAC_SHA=$(sha "$ARM_MAC")
+    INTEL_LINUX_SHA=$(sha "$INTEL_LINUX")
+    ARM_LINUX_SHA=$(sha "$ARM_LINUX")
 
-    if [[ -n "$LINUX_FILE" ]]; then
-        LINUX_SHA=$(shasum -a 256 "$LINUX_FILE" | cut -d' ' -f1)
-    fi
-
-    cd - > /dev/null
     rm -rf "$TEMP_DIR"
 
-    # Update the formula file
     FORMULA_FILE="Formula/{{formula}}.rb"
+    BASE="https://github.com/{{repo}}/releases/download/{{version}}"
+    VERSION_NUM=$(echo "{{version}}" | sed 's/^v//')
 
-    # Extract version number from tag (remove prefix if present)
-    VERSION_NUM=$(echo "{{version}}" | sed 's/.*-v//' | sed 's/^v//')
-
-    # Update version
     sed -i '' "s/version \".*\"/version \"$VERSION_NUM\"/" "$FORMULA_FILE"
 
-    # Update macOS Intel URL and SHA
-    if [[ -n "$INTEL_FILE" ]]; then
-        sed -i '' "s|url \".*x86_64-apple-darwin.*\"|url \"https://github.com/{{repo}}/releases/download/{{version}}/$INTEL_FILE\"|" "$FORMULA_FILE"
-        sed -i '' "/x86_64-apple-darwin/,/sha256/ s/sha256 \".*\"/sha256 \"$INTEL_SHA\"/" "$FORMULA_FILE"
+    if [[ -n "$INTEL_MAC_SHA" ]]; then
+        sed -i '' "s|url \".*x86_64-apple-darwin.*\"|url \"$BASE/$INTEL_MAC\"|" "$FORMULA_FILE"
+        sed -i '' "/x86_64-apple-darwin/,/sha256/ s/sha256 \".*\"/sha256 \"$INTEL_MAC_SHA\"/" "$FORMULA_FILE"
     fi
-
-    # Update macOS ARM URL and SHA
-    if [[ -n "$ARM_FILE" ]]; then
-        sed -i '' "s|url \".*aarch64-apple-darwin.*\"|url \"https://github.com/{{repo}}/releases/download/{{version}}/$ARM_FILE\"|" "$FORMULA_FILE"
-        sed -i '' "/aarch64-apple-darwin/,/sha256/ s/sha256 \".*\"/sha256 \"$ARM_SHA\"/" "$FORMULA_FILE"
+    if [[ -n "$ARM_MAC_SHA" ]]; then
+        sed -i '' "s|url \".*aarch64-apple-darwin.*\"|url \"$BASE/$ARM_MAC\"|" "$FORMULA_FILE"
+        sed -i '' "/aarch64-apple-darwin/,/sha256/ s/sha256 \".*\"/sha256 \"$ARM_MAC_SHA\"/" "$FORMULA_FILE"
     fi
-
-    # Update Linux x86_64 URL and SHA
-    if [[ -n "$LINUX_FILE" ]]; then
-        sed -i '' "s|url \".*x86_64-unknown-linux-gnu.*\"|url \"https://github.com/{{repo}}/releases/download/{{version}}/$LINUX_FILE\"|" "$FORMULA_FILE"
-        sed -i '' "/x86_64-unknown-linux-gnu/,/sha256/ s/sha256 \".*\"/sha256 \"$LINUX_SHA\"/" "$FORMULA_FILE"
+    if [[ -n "$INTEL_LINUX_SHA" ]]; then
+        sed -i '' "s|url \".*x86_64-unknown-linux-gnu.*\"|url \"$BASE/$INTEL_LINUX\"|" "$FORMULA_FILE"
+        sed -i '' "/x86_64-unknown-linux-gnu/,/sha256/ s/sha256 \".*\"/sha256 \"$INTEL_LINUX_SHA\"/" "$FORMULA_FILE"
+    fi
+    if [[ -n "$ARM_LINUX_SHA" ]]; then
+        sed -i '' "s|url \".*aarch64-unknown-linux-gnu.*\"|url \"$BASE/$ARM_LINUX\"|" "$FORMULA_FILE"
+        sed -i '' "/aarch64-unknown-linux-gnu/,/sha256/ s/sha256 \".*\"/sha256 \"$ARM_LINUX_SHA\"/" "$FORMULA_FILE"
     fi
 
     echo "✅ Updated $FORMULA_FILE to version {{version}}"
@@ -121,6 +97,22 @@ update-noaa:
 # Apply update to noaa-weather formula
 apply-noaa version:
     just apply-update noaa-weather seferino-fernandez/noaa_weather {{version}}
+
+# Inspect + show checksums for rhood (CLI)
+update-rhood:
+    just update-formula rhood seferino-fernandez/rhood-rs
+
+# Apply a version update to the rhood (CLI) formula
+apply-rhood version:
+    just apply-update rhood seferino-fernandez/rhood-rs {{version}}
+
+# Inspect + show checksums for rhood-mcp (MCP server)
+update-rhood-mcp:
+    just update-formula rhood-mcp seferino-fernandez/rhood-rs
+
+# Apply a version update to the rhood-mcp formula
+apply-rhood-mcp version:
+    just apply-update rhood-mcp seferino-fernandez/rhood-rs {{version}}
 
 # Full update process for noaa-weather
 update-noaa-complete:

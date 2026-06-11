@@ -1,4 +1,4 @@
-class Rhood < Formula
+class RhoodMcp < Formula
   desc "MCP for the Robinhood trading API"
   homepage "https://github.com/seferino-fernandez/rhood-rs"
   license "MIT"

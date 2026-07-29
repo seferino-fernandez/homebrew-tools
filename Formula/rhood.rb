@@ -5,23 +5,23 @@ class Rhood < Formula
 
   on_macos do
     if Hardware::CPU.intel?
-      url "https://github.com/seferino-fernandez/rhood-rs/releases/download/v0.1.2/rhood-x86_64-apple-darwin.tar.gz"
-      sha256 "390651b3e27121f49107a4a3a3f7ec7de08438f282427cb5bc570f10f2a99b8c"
+      url "https://github.com/seferino-fernandez/rhood-rs/releases/download/v0.1.3/rhood-x86_64-apple-darwin.tar.gz"
+      sha256 "47436135701c890e6e82107f2675f819390f28394c9db57cceb788132626d644"
     end
     if Hardware::CPU.arm?
-      url "https://github.com/seferino-fernandez/rhood-rs/releases/download/v0.1.2/rhood-aarch64-apple-darwin.tar.gz"
-      sha256 "258276b6c426b23cb49699269bac965c1fd52d62116319dbec33557758cc8f08"
+      url "https://github.com/seferino-fernandez/rhood-rs/releases/download/v0.1.3/rhood-aarch64-apple-darwin.tar.gz"
+      sha256 "f8e38d225b56b4a86f2984146637171370df2e0ae23fd217ac67cf432875a3d3"
     end
   end
 
   on_linux do
     if Hardware::CPU.intel?
-      url "https://github.com/seferino-fernandez/rhood-rs/releases/download/v0.1.2/rhood-x86_64-unknown-linux-gnu.tar.gz"
-      sha256 "afd198baa667148fbdc240d6de08c8b976088e12c4aca7174588072647dc823c"
+      url "https://github.com/seferino-fernandez/rhood-rs/releases/download/v0.1.3/rhood-x86_64-unknown-linux-gnu.tar.gz"
+      sha256 "f23b49e66563877936e121d78f8bb3f185b2168e29a85c2d1ae7cbf07a5e3a3c"
     end
     if Hardware::CPU.arm?
-      url "https://github.com/seferino-fernandez/rhood-rs/releases/download/v0.1.2/rhood-aarch64-unknown-linux-gnu.tar.gz"
-      sha256 "b7d7879266f006092b81a9d33347d2c300e01df695616d9bae6e87d3940261a3"
+      url "https://github.com/seferino-fernandez/rhood-rs/releases/download/v0.1.3/rhood-aarch64-unknown-linux-gnu.tar.gz"
+      sha256 "db5935c870974853f2d277edece0eae18c61dcf994edfed87666ebfa0fe05000"
     end
   end
 

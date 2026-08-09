@@ -5,23 +5,23 @@ class RhoodMcp < Formula
 
   on_macos do
     if Hardware::CPU.intel?
-      url "https://github.com/seferino-fernandez/rhood-rs/releases/download/v0.1.3/rhood-mcp-x86_64-apple-darwin.tar.gz"
-      sha256 "e58b1bb423aafb6bd1b9ee500f21d52778e77dfa0470a1a3ba2817aa40a2a3be"
+      url "https://github.com/seferino-fernandez/rhood-rs/releases/download/v0.1.4/rhood-mcp-x86_64-apple-darwin.tar.gz"
+      sha256 "0a7b84326df5fb3489854bbf25363e41165637c378e39e12ad130df77c482727"
     end
     if Hardware::CPU.arm?
-      url "https://github.com/seferino-fernandez/rhood-rs/releases/download/v0.1.3/rhood-mcp-aarch64-apple-darwin.tar.gz"
-      sha256 "ab884331f5b2ad4b89686da5aaae32cb42829a32f1113f80c0e1cd67ca1140e2"
+      url "https://github.com/seferino-fernandez/rhood-rs/releases/download/v0.1.4/rhood-mcp-aarch64-apple-darwin.tar.gz"
+      sha256 "4e19ac48e6e349620a0f07af7a189a9ccd9702cfe3f842634fbecb4dc50cf71b"
     end
   end
 
   on_linux do
     if Hardware::CPU.intel?
-      url "https://github.com/seferino-fernandez/rhood-rs/releases/download/v0.1.3/rhood-mcp-x86_64-unknown-linux-gnu.tar.gz"
-      sha256 "4a773ceda0a33ca558cdf1d59e9a1f32b878318756e18b7ecced0665c2697cd7"
+      url "https://github.com/seferino-fernandez/rhood-rs/releases/download/v0.1.4/rhood-mcp-x86_64-unknown-linux-gnu.tar.gz"
+      sha256 "73073cc31edaab7498944e57f779abbea2a8994e753e8a222938899065db42b9"
     end
     if Hardware::CPU.arm?
-      url "https://github.com/seferino-fernandez/rhood-rs/releases/download/v0.1.3/rhood-mcp-aarch64-unknown-linux-gnu.tar.gz"
-      sha256 "e42dff1cae61091895001d43a6f1b365a51d2af05737e73ccd3b9aaaa2c83c01"
+      url "https://github.com/seferino-fernandez/rhood-rs/releases/download/v0.1.4/rhood-mcp-aarch64-unknown-linux-gnu.tar.gz"
+      sha256 "824ffcd16b90d10a11fdbe3e124e36f1a0881e0454e1737330db3677fe557315"
     end
   end
 

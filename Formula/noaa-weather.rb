@@ -1,32 +1,32 @@
 class NoaaWeather < Formula
   desc "CLI for the NOAA Weather API"
   homepage "https://github.com/seferino-fernandez/noaa_weather"
-  version "1.3.0"
+  version "2.0.0"
   license "MIT"
 
   on_macos do
     if Hardware::CPU.intel?
       # macOS Intel (x86_64) binary
-      url "https://github.com/seferino-fernandez/noaa_weather/releases/download/v1.3.0/noaa-weather-x86_64-apple-darwin.tar.gz"
-      sha256 "97cecce3bef6089ccab36a295fee99104cc0cd752089b63596943dffdbaedfd4"
+      url "https://github.com/seferino-fernandez/noaa_weather/releases/download/v2.0.0/noaa-weather-x86_64-apple-darwin.tar.gz"
+      sha256 "d86e1fe5dd92a1536fbdbfc33b4841d2c615bc11f09c52f5440d302b3fa6a372"
     end
     if Hardware::CPU.arm?
       # macOS Apple Silicon (aarch64) binary
-      url "https://github.com/seferino-fernandez/noaa_weather/releases/download/v1.3.0/noaa-weather-aarch64-apple-darwin.tar.gz"
-      sha256 "54667e4fcc3fed9e33c03787c86edc6e76fa1002b696d141b7eb081f049927cc"
+      url "https://github.com/seferino-fernandez/noaa_weather/releases/download/v2.0.0/noaa-weather-aarch64-apple-darwin.tar.gz"
+      sha256 "9be7809c718148e62d9a0a1d9f4f3bb8aaa51fe1485fe2756f2b976ecacd9319"
     end
   end
 
   on_linux do
     if Hardware::CPU.intel?
       # Linux x86_64 binary
-      url "https://github.com/seferino-fernandez/noaa_weather/releases/download/v1.3.0/noaa-weather-x86_64-unknown-linux-gnu.tar.gz"
-      sha256 "949a3ec6ba957d2fb2158079fea23830b8ee025ee3a1301667f9e2efa2cf99c0"
+      url "https://github.com/seferino-fernandez/noaa_weather/releases/download/v2.0.0/noaa-weather-x86_64-unknown-linux-gnu.tar.gz"
+      sha256 "cce40a085f66959b40241eb71f6daec9c3ae91c932fe71c9711a45c850ac1cdd"
     end
     if Hardware::CPU.arm?
       # Linux ARM binary
-      url "https://github.com/seferino-fernandez/noaa_weather/releases/download/v1.3.0/noaa-weather-aarch64-unknown-linux-gnu.tar.gz"
-      sha256 "e691042dea0b75ec1b9858602e858e4465baa879dfbe0aff07c5341bb0c216ec"
+      url "https://github.com/seferino-fernandez/noaa_weather/releases/download/v2.0.0/noaa-weather-aarch64-unknown-linux-gnu.tar.gz"
+      sha256 "2b0cfc2e60366bab0d02c531b01ff641ee46d5aab602569aa57d8aa9f1bf5584"
     end
   end
 

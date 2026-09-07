@@ -98,6 +98,14 @@ update-noaa:
 apply-noaa version:
     just apply-update noaa-weather seferino-fernandez/noaa_weather {{version}}
 
+# Inspect + show checksums for noaa-weather-mcp (MCP server)
+update-noaa-mcp:
+    just update-formula noaa-weather-mcp seferino-fernandez/noaa_weather
+
+# Apply a version update to the noaa-weather-mcp formula
+apply-noaa-mcp version:
+    just apply-update noaa-weather-mcp seferino-fernandez/noaa_weather {{version}}
+
 # Inspect + show checksums for rhood (CLI)
 update-rhood:
     just update-formula rhood seferino-fernandez/rhood-rs

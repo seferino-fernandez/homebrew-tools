@@ -1,7 +1,6 @@
 class NoaaWeatherMcp < Formula
   desc "MCP server for the NOAA Weather API"
   homepage "https://github.com/seferino-fernandez/noaa_weather"
-  version "2.0.0"
   license "MIT"
 
   on_macos do

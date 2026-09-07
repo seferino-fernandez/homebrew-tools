@@ -34,6 +34,6 @@ class NoaaWeather < Formula
   end
 
   test do
-    system "#{bin}/noaa-weather", "--version"
+    system bin/"noaa-weather", "--version"
   end
 end

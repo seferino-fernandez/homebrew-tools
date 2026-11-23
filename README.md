@@ -29,6 +29,8 @@ The following tools are currently available for installation through this tap:
 | :----------------- | :------------------------------------------------- | :------------------------------------------------------------------------------------ |
 | `noaa-weather`     | A command-line interface for the NOAA Weather API. | [seferino-fernandez/noaa_weather](https://github.com/seferino-fernandez/noaa_weather) |
 | `noaa-weather-mcp` | MCP server for the NOAA Weather API.               | [seferino-fernandez/noaa_weather](https://github.com/seferino-fernandez/noaa_weather) |
+| `fontgres`         | Query installed fonts from the terminal.           | [seferino-fernandez/fontgres](https://github.com/seferino-fernandez/fontgres)         |
+| `fontgres-mcp`     | MCP server for querying installed fonts.           | [seferino-fernandez/fontgres](https://github.com/seferino-fernandez/fontgres)         |
 | `rhood`            | Terminal CLI for the Robinhood trading API.        | [seferino-fernandez/rhood-rs](https://github.com/seferino-fernandez/rhood-rs)         |
 | `rhood-mcp`        | MCP for the Robinhood trading API.                 | [seferino-fernandez/rhood-rs](https://github.com/seferino-fernandez/rhood-rs)         |
 

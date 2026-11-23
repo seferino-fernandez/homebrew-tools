@@ -122,6 +122,25 @@ update-rhood-mcp:
 apply-rhood-mcp version:
     just apply-update rhood-mcp seferino-fernandez/rhood-rs {{version}}
 
+# CI rewrites the fontgres formulas on each release; these four recipes are
+# the manual fallback.
+
+# Inspect + show checksums for fontgres (CLI)
+update-fontgres:
+    just update-formula fontgres seferino-fernandez/fontgres
+
+# Apply a version update to the fontgres (CLI) formula
+apply-fontgres version:
+    just apply-update fontgres seferino-fernandez/fontgres {{version}}
+
+# Inspect + show checksums for fontgres-mcp (MCP server)
+update-fontgres-mcp:
+    just update-formula fontgres-mcp seferino-fernandez/fontgres
+
+# Apply a version update to the fontgres-mcp formula
+apply-fontgres-mcp version:
+    just apply-update fontgres-mcp seferino-fernandez/fontgres {{version}}
+
 # Full update process for noaa-weather
 update-noaa-complete:
     #!/usr/bin/env bash

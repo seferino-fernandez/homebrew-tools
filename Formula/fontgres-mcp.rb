@@ -5,23 +5,23 @@ class FontgresMcp < Formula
 
   on_macos do
     if Hardware::CPU.intel?
-      url "https://github.com/seferino-fernandez/fontgres/releases/download/v0.2.0/fontgres-mcp-x86_64-apple-darwin.tar.gz"
-      sha256 "ad18af47a5599298b1484a63ad8d8bf9f10ae834e6b405f32f66d436bb2b8039"
+      url "https://github.com/seferino-fernandez/fontgres/releases/download/v0.3.0/fontgres-mcp-x86_64-apple-darwin.tar.gz"
+      sha256 "c1424fc9fd92876e72f392f9847a701a5db76e2da791aeb9e13b37c5bb5a43f5"
     end
     if Hardware::CPU.arm?
-      url "https://github.com/seferino-fernandez/fontgres/releases/download/v0.2.0/fontgres-mcp-aarch64-apple-darwin.tar.gz"
-      sha256 "ac717cae0ffa79753f7bc0e5fd69501e88f9045d4f600081b02a74819cdadba5"
+      url "https://github.com/seferino-fernandez/fontgres/releases/download/v0.3.0/fontgres-mcp-aarch64-apple-darwin.tar.gz"
+      sha256 "a8a35d9fafaedc528f68c97908170186840cb8c7e1b91d5e188a0dd42c8a5245"
     end
   end
 
   on_linux do
     if Hardware::CPU.intel?
-      url "https://github.com/seferino-fernandez/fontgres/releases/download/v0.2.0/fontgres-mcp-x86_64-unknown-linux-gnu.tar.gz"
-      sha256 "4dd4ddf56ccbdc01a464d69059be4f899954aed0824cd424d1f6250b55141625"
+      url "https://github.com/seferino-fernandez/fontgres/releases/download/v0.3.0/fontgres-mcp-x86_64-unknown-linux-gnu.tar.gz"
+      sha256 "106ab09b24568e3b5ca276e2cbdb330140e0f89fc97a48058efa2649764ba917"
     end
     if Hardware::CPU.arm?
-      url "https://github.com/seferino-fernandez/fontgres/releases/download/v0.2.0/fontgres-mcp-aarch64-unknown-linux-gnu.tar.gz"
-      sha256 "3ce6f2052a96758ab472fc3fea7f6eb939d6fe62b78ecc0ca7b62b3ebae25573"
+      url "https://github.com/seferino-fernandez/fontgres/releases/download/v0.3.0/fontgres-mcp-aarch64-unknown-linux-gnu.tar.gz"
+      sha256 "debcd70459db2cbd619c32efe9cc91b06bcf0a7d87ae69a482f4dfe0043fbb72"
     end
   end
 
